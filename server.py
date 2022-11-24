@@ -39,7 +39,9 @@ def pondRegister():
         
         return response
     except Exception as e: 
-        return jsonify({"error":str(e)})
+        response = make_response(jsonify({"error":str(e)}),500)
+        response.headers["Content-Type"] = "application/json"
+        return response
     
 @app.route("/", methods=["GET"])
 def getPond():
