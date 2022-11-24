@@ -1,6 +1,6 @@
 # FullStack-Assignment-BackEnd
 All members were present and active for 7 hours+ discussion in Discord <br>
-[Documentation Web API Documentatation]('https://documenter.getpostman.com/view/24216905/2s8YsozF9g')
+[Web API Documentation](https://documenter.getpostman.com/view/24216905/2s8YsozF9g)
 ## Team Members:
 
 -   Aldy Syachranie (1313621012)
