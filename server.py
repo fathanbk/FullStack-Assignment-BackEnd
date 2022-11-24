@@ -91,11 +91,9 @@ def pondUpdate(id):
             200,
         )
     except Exception as e:
-        return Response(
-            response=json.dumps({"message": "An error occurred", "error": str(e)}),
-            status=500,
-            mimetype="application/json"
-        )
+       response = make_response(jsonify({"error":str(e)}),500)
+       response.headers["Content-Type"] = "application/json"
+       return response
 
 @app.route('/pond/<id>', methods=['GET'])
 def getOnePond(id):
