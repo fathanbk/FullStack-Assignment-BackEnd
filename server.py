@@ -1,6 +1,8 @@
 from flask import Flask, Response, request, make_response, jsonify
 import pymongo
 from flask_cors import CORS, cross_origin
+from bson.objectid import ObjectId
+import json
 
 app = Flask(__name__)
 
@@ -38,6 +40,24 @@ def pondRegister():
         return response
     except Exception as e: 
         return jsonify({"error":str(e)})
+    
+@app.route("/", methods=["GET"])
+def getPond():
+    try:
+        data = list(db.pond.find())
+        for pond in data:
+            pond['_id'] = str(pond['_id'])
+
+        return Response(
+            response= json.dumps(data),
+            status=200, 
+            mimetype="application/json")
+    except Exception as e:
+        return Response(
+            response=json.dumps({"message": "An error occurred", "error": str(e)}),
+            status=500,
+            mimetype="application/json"
+        )
     
 if __name__ == '__main__':
     app.run(debug=True)
