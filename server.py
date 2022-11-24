@@ -39,7 +39,9 @@ def pondRegister():
         
         return response
     except Exception as e: 
-        return jsonify({"error":str(e)})
+        response = make_response(jsonify({"error":str(e)}),500)
+        response.headers["Content-Type"] = "application/json"
+        return response
     
 @app.route("/", methods=["GET"])
 def getPond():
@@ -94,6 +96,25 @@ def pondUpdate(id):
             status=500,
             mimetype="application/json"
         )
+
+@app.route('/pond/<id>', methods=['GET'])
+def getOnePond(id):
+    try:
+        data = db.pond.find_one({'_id': ObjectId(id)})
+        data['_id'] = str(data['_id'])
+        response = make_response(
+                jsonify(data,
+                    {"message": "Pond fetched successfully"}
+                ),
+                200,
+            )
+        response.headers["Content-Type"] = "application/json"
+
+        return response
+    except Exception as e:
+       response = make_response(jsonify({"error":str(e)}),500)
+       response.headers["Content-Type"] = "application/json"
+       return response
     
 if __name__ == '__main__':
     app.run(debug=True)
