@@ -48,10 +48,15 @@ def getPond():
         for pond in data:
             pond['_id'] = str(pond['_id'])
 
-        return Response(
-            response= json.dumps(data),
-            status=200, 
-            mimetype="application/json")
+        response = make_response(
+                jsonify(data,
+                    {"message": "Pond fetched successfully"}
+                ),
+                200,
+            )
+        response.headers["Content-Type"] = "application/json"
+
+        return response
     except Exception as e:
         return Response(
             response=json.dumps({"message": "An error occurred", "error": str(e)}),
