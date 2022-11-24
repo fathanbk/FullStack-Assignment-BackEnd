@@ -58,6 +58,39 @@ def getPond():
             status=500,
             mimetype="application/json"
         )
+
+@app.route('/pond/<id>', methods=['PATCH'])
+def pondUpdate(id):
+    try:
+        if request.method == 'PATCH':
+            data = {
+                "name": request.json['name'],
+                "location": request.json['location'],
+                "shape": request.json['shape'],
+                "material": request.json['material'],
+                }
+            dbResponse = db.pond.update_one({'_id': ObjectId(id)}, {'$set': data})
+            response = make_response(
+                    jsonify(
+                        {"message": "Pond updated successfully"}
+                    ),
+                    200,
+                )
+            response.headers["Content-Type"] = "application/json"
+            
+            return response
+        return make_response(
+            jsonify(
+                {"message": "Pond already updated"}
+            ),
+            200,
+        )
+    except Exception as e:
+        return Response(
+            response=json.dumps({"message": "An error occurred", "error": str(e)}),
+            status=500,
+            mimetype="application/json"
+        )
     
 if __name__ == '__main__':
     app.run(debug=True)
